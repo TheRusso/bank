@@ -1,0 +1,20 @@
+CREATE TABLE users(
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    card VARCHAR(25) NOT NULL,
+    pin VARCHAR(120) NOT NULL,
+    enabled VARCHAR(20) NOT NULL,
+    balance INTEGER NOT NULL DEFAULT 0,
+    role VARCHAR(50) NOT NULL DEFAULT 'USER',
+
+    UNIQUE (card)
+);
+
+CREATE TABLE transactions(
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    value INTEGER NOT NULL ,
+    card_id_from INTEGER NOT NULL ,
+    card_id_to INTEGER NOT NULL ,
+
+    FOREIGN KEY (card_id_to) REFERENCES users(id),
+    FOREIGN KEY (card_id_from) REFERENCES users(id)
+);
