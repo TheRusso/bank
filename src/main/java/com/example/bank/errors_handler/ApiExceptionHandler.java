@@ -15,7 +15,7 @@ public class ApiExceptionHandler {
     @ExceptionHandler(value = {ApiUserNotFoundException.class, ApiRequestException.class})
     public ResponseEntity<Object> handleApiRequestException(ApiRequestException e){
         HttpStatus badRequest = HttpStatus.BAD_REQUEST;
-        ApiException apiException = new ApiException(
+        var apiException = new ApiException(
                 e.getMessage(),
                 badRequest,
                 ZonedDateTime.now()

@@ -37,9 +37,12 @@ public class MainController {
 
         if(type.equals(TopUpType.CASH.name().toLowerCase()))
             userService.topUp(card, value);
-        else if(type.equals(TopUpType.CARD.name().toLowerCase()))
+        else if(type.equals(TopUpType.CARD.name().toLowerCase())) {
+            if (card.equals(principal.getName()))
+                throw new ApiRequestException(ErrorMessageUtil.getInstance().getMessageByKey(ErrorKeys.BAD_REQUEST.getKey()));
+
             userService.transact(principal.getName(), card, value);
-        else
+        }else
             throw new ApiRequestException(ErrorMessageUtil.getInstance().getMessageByKey(ErrorKeys.BAD_REQUEST.getKey()));
 
         return "redirect:/api/balance";

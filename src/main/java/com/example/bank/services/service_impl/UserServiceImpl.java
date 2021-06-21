@@ -1,5 +1,6 @@
 package com.example.bank.services.service_impl;
 
+import com.example.bank.errors_handler.errors.ApiRequestException;
 import com.example.bank.errors_handler.errors.ApiUserNotFoundException;
 import com.example.bank.model.entities.Transaction;
 import com.example.bank.model.entities.User;
@@ -49,12 +50,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void transact(String cardFrom, String cardTo, long value) {
+    public void transact(String cardFrom, String cardTo, long value) throws ApiUserNotFoundException, ApiRequestException {
         var userFrom = userRepository.findByCard(cardFrom).orElseThrow(() -> {throw new UsernameNotFoundException(ErrorMessageUtil.getInstance().getMessageByKey(ErrorKeys.CANT_FIND_USER.getKey()));});
         var userTo = userRepository.findByCard(cardTo).orElseThrow(() -> {throw new UsernameNotFoundException(ErrorMessageUtil.getInstance().getMessageByKey(ErrorKeys.CANT_FIND_USER.getKey()));});
 
         if(userFrom.getBalance() < value)
-            throw new IllegalArgumentException(ErrorMessageUtil.getInstance().getMessageByKey(ErrorKeys.LOW_BALANCE.getKey()));
+            throw new ApiRequestException(ErrorMessageUtil.getInstance().getMessageByKey(ErrorKeys.LOW_BALANCE.getKey()));
 
         userFrom.setBalance(userFrom.getBalance() - value);
 
