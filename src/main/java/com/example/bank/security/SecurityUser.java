@@ -1,7 +1,7 @@
 package com.example.bank.security;
 
 import com.example.bank.model.Status;
-import com.example.bank.model.User;
+import com.example.bank.model.entities.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

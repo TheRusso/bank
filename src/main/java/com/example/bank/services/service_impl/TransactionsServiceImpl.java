@@ -1,6 +1,6 @@
 package com.example.bank.services.service_impl;
 
-import com.example.bank.model.Transaction;
+import com.example.bank.model.entities.Transaction;
 import com.example.bank.repositories.TransactionsRepository;
 import com.example.bank.services.TransactionsService;
 import org.springframework.beans.factory.annotation.Autowired;

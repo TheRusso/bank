@@ -1,6 +1,6 @@
 package com.example.bank.repositories;
 
-import com.example.bank.model.Transaction;
+import com.example.bank.model.entities.Transaction;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

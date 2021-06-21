@@ -2,7 +2,7 @@ package com.example.bank.controllers;
 
 import com.example.bank.model.Role;
 import com.example.bank.model.Status;
-import com.example.bank.model.User;
+import com.example.bank.model.entities.User;
 import com.example.bank.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

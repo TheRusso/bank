@@ -1,5 +1,7 @@
-package com.example.bank.model;
+package com.example.bank.model.entities;
 
+import com.example.bank.model.Role;
+import com.example.bank.model.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

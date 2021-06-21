@@ -1,6 +1,6 @@
 package com.example.bank.services;
 
-import com.example.bank.model.Transaction;
+import com.example.bank.model.entities.Transaction;
 
 import java.util.List;
 

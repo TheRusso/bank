@@ -1,9 +1,7 @@
 package com.example.bank.controllers;
 
 import com.example.bank.model.rest_response.AllTransactionsResponse;
-import com.example.bank.model.rest_response.TransactionResponse;
 import com.example.bank.model.rest_response.UserResponse;
-import com.example.bank.repositories.TransactionsRepository;
 import com.example.bank.services.TransactionsService;
 import com.example.bank.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
-import java.util.stream.Collectors;
 
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api")

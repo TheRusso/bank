@@ -1,6 +1,6 @@
 package com.example.bank.services.service_impl;
 
-import com.example.bank.model.User;
+import com.example.bank.model.entities.User;
 import com.example.bank.model.rest_response.AllTransactionsResponse;
 import com.example.bank.model.rest_response.TransactionResponse;
 import com.example.bank.repositories.TransactionsRepository;
@@ -34,6 +34,30 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(User user) {
         userRepository.save(user);
+    }
+
+    @Override
+    public void topUp(String card, long value) {
+        User user = userRepository.findByCard(card).orElseThrow(() -> {throw new UsernameNotFoundException("Wrong");});
+        user.setBalance(user.getBalance() + value);
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public void transact(String cardFrom, String cardTo, long value) {
+        User userFrom = userRepository.findByCard(cardFrom).orElseThrow(() -> {throw new UsernameNotFoundException("Wrong");});
+        User userTo = userRepository.findByCard(cardTo).orElseThrow(() -> {throw new UsernameNotFoundException("Wrong");});
+
+        if(userFrom.getBalance() < value)
+            throw new IllegalArgumentException();
+
+        userFrom.setBalance(userFrom.getBalance() - value);
+
+        userTo.setBalance(userTo.getBalance() + value);
+
+        userRepository.save(userFrom);
+        userRepository.save(userTo);
     }
 
     public AllTransactionsResponse getAllTransactionsResponseByCard(String card){
