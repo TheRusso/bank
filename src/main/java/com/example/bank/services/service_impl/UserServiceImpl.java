@@ -1,5 +1,6 @@
 package com.example.bank.services.service_impl;
 
+import com.example.bank.errors_handler.errors.ApiUserNotFoundException;
 import com.example.bank.model.entities.Transaction;
 import com.example.bank.model.entities.User;
 import com.example.bank.model.rest_response.AllTransactionsResponse;
@@ -7,6 +8,8 @@ import com.example.bank.model.rest_response.TransactionResponse;
 import com.example.bank.repositories.TransactionsRepository;
 import com.example.bank.repositories.UserRepository;
 import com.example.bank.services.UserService;
+import com.example.bank.utils.ErrorKeys;
+import com.example.bank.utils.ErrorMessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -39,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void topUp(String card, long value) {
-        User user = userRepository.findByCard(card).orElseThrow(() -> {throw new UsernameNotFoundException("Wrong");});
+        var user = userRepository.findByCard(card).orElseThrow(() -> {throw new ApiUserNotFoundException(ErrorMessageUtil.getInstance().getMessageByKey(ErrorKeys.CANT_FIND_USER.getKey()));});
         user.setBalance(user.getBalance() + value);
 
         userRepository.save(user);
@@ -47,17 +50,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void transact(String cardFrom, String cardTo, long value) {
-        User userFrom = userRepository.findByCard(cardFrom).orElseThrow(() -> {throw new UsernameNotFoundException("Wrong");});
-        User userTo = userRepository.findByCard(cardTo).orElseThrow(() -> {throw new UsernameNotFoundException("Wrong");});
+        var userFrom = userRepository.findByCard(cardFrom).orElseThrow(() -> {throw new UsernameNotFoundException(ErrorMessageUtil.getInstance().getMessageByKey(ErrorKeys.CANT_FIND_USER.getKey()));});
+        var userTo = userRepository.findByCard(cardTo).orElseThrow(() -> {throw new UsernameNotFoundException(ErrorMessageUtil.getInstance().getMessageByKey(ErrorKeys.CANT_FIND_USER.getKey()));});
 
         if(userFrom.getBalance() < value)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ErrorMessageUtil.getInstance().getMessageByKey(ErrorKeys.LOW_BALANCE.getKey()));
 
         userFrom.setBalance(userFrom.getBalance() - value);
 
         userTo.setBalance(userTo.getBalance() + value);
 
-        Transaction transaction = new Transaction().builder()
+        var transaction = new Transaction().builder()
                 .userFrom(userFrom)
                 .userTo(userTo)
                 .value(value)

@@ -1,7 +1,10 @@
 package com.example.bank.controllers;
 
+import com.example.bank.errors_handler.errors.ApiRequestException;
 import com.example.bank.model.TopUpType;
 import com.example.bank.services.UserService;
+import com.example.bank.utils.ErrorKeys;
+import com.example.bank.utils.ErrorMessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +40,7 @@ public class MainController {
         else if(type.equals(TopUpType.CARD.name().toLowerCase()))
             userService.transact(principal.getName(), card, value);
         else
-            throw new IllegalArgumentException();
+            throw new ApiRequestException(ErrorMessageUtil.getInstance().getMessageByKey(ErrorKeys.BAD_REQUEST.getKey()));
 
         return "redirect:/api/balance";
     }

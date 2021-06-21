@@ -1,11 +1,12 @@
 package com.example.bank.controllers;
 
+import com.example.bank.errors_handler.errors.ApiUserNotFoundException;
 import com.example.bank.model.rest_response.AllTransactionsResponse;
 import com.example.bank.model.rest_response.UserResponse;
-import com.example.bank.services.TransactionsService;
 import com.example.bank.services.UserService;
+import com.example.bank.utils.ErrorKeys;
+import com.example.bank.utils.ErrorMessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,13 +19,10 @@ public class RestController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private TransactionsService transactionsService;
-
     @GetMapping("/balance")
     public UserResponse getBalance(Principal principal){
         var user = userService.findByCard(principal.getName()).orElseThrow(()->{
-            throw new UsernameNotFoundException("Something went wrong");
+            throw new ApiUserNotFoundException(ErrorMessageUtil.getInstance().getMessageByKey(ErrorKeys.CANT_FIND_USER.getKey()));
         });
 
         return UserResponse.builder()
