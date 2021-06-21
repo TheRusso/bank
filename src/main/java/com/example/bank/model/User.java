@@ -11,6 +11,8 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,6 +23,9 @@ public class User {
 
     @Column(name = "pin")
     private String pin;
+
+    @Column(name = "balance")
+    private long balance;
 
     @Column(name = "enabled")
     @Enumerated(value = EnumType.STRING)
