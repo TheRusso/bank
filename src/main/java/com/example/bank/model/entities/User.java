@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 
@@ -38,4 +39,10 @@ public class User {
     @Column(name = "role")
     @Enumerated(value = EnumType.STRING)
     private Role role;
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "userTo")
+    private List<Transaction> input;
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "userFrom")
+    private List<Transaction> output;
 }

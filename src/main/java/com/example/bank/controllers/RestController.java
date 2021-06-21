@@ -33,6 +33,7 @@ public class RestController {
                 .build();
     }
 
+
     @GetMapping("/transactions")
     public AllTransactionsResponse getAllTransactions(Principal principal){
         return userService.getAllTransactionsResponseByCard(principal.getName());

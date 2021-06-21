@@ -1,5 +1,6 @@
 package com.example.bank.services.service_impl;
 
+import com.example.bank.model.entities.Transaction;
 import com.example.bank.model.entities.User;
 import com.example.bank.model.rest_response.AllTransactionsResponse;
 import com.example.bank.model.rest_response.TransactionResponse;
@@ -56,6 +57,13 @@ public class UserServiceImpl implements UserService {
 
         userTo.setBalance(userTo.getBalance() + value);
 
+        Transaction transaction = new Transaction().builder()
+                .userFrom(userFrom)
+                .userTo(userTo)
+                .value(value)
+                .build();
+
+        transactionsRepository.save(transaction);
         userRepository.save(userFrom);
         userRepository.save(userTo);
     }
