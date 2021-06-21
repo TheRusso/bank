@@ -47,4 +47,12 @@ public class MainController {
 
         return "redirect:/api/balance";
     }
+
+    @PostMapping("/take_money")
+    public String getMoney(@ModelAttribute(name = "card") String card,
+                           @ModelAttribute(name = "value") long value){
+        userService.takeMoney(card, value);
+
+        return "redirect:/api/balance";
+    }
 }

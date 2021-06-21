@@ -51,4 +51,11 @@ public interface UserService {
      * @param value
      */
     void transact(String cardFrom, String cardTo, long value);
+
+    /**
+     * Take money from card
+     * @param user
+     * @param value
+     */
+    void takeMoney(String card, long value);
 }

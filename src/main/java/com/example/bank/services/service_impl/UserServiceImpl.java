@@ -72,6 +72,16 @@ public class UserServiceImpl implements UserService {
         userRepository.save(userTo);
     }
 
+    @Override
+    public void takeMoney(String card, long value) {
+        var user = userRepository.findByCard(card).orElseThrow(() -> {throw new ApiUserNotFoundException(ErrorMessageUtil.getInstance().getMessageByKey(ErrorKeys.CANT_FIND_USER.getKey()));});
+        if(user.getBalance() < value)
+            throw new ApiRequestException(ErrorMessageUtil.getInstance().getMessageByKey(ErrorKeys.LOW_BALANCE.getKey()));
+
+        user.setBalance(user.getBalance() - value);
+        userRepository.save(user);
+    }
+
     public AllTransactionsResponse getAllTransactionsResponseByCard(String card){
         var allTransactionsResponse = new AllTransactionsResponse();
 
