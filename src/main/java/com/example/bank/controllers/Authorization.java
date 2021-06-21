@@ -3,7 +3,7 @@ package com.example.bank.controllers;
 import com.example.bank.model.Role;
 import com.example.bank.model.Status;
 import com.example.bank.model.User;
-import com.example.bank.repositories.UserRepository;
+import com.example.bank.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class Authorization {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @GetMapping("/login")
     public String openLoginPage(){
@@ -35,7 +35,7 @@ public class Authorization {
         user.setStatus(Status.ACTIVE);
         user.setRole(Role.USER);
         user.setBalance(0);
-        userRepository.save(user);
+        userService.save(user);
         return "redirect:/";
     }
 }
