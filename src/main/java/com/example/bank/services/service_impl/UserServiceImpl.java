@@ -24,11 +24,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final TransactionsRepository transactionsRepository;
 
     @Autowired
-    private TransactionsRepository transactionsRepository;
+    public UserServiceImpl(UserRepository userRepository, TransactionsRepository transactionsRepository) {
+        this.userRepository = userRepository;
+        this.transactionsRepository = transactionsRepository;
+    }
 
     @Override
     public Optional<User> findByCard(String card) {
