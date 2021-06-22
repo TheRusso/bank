@@ -74,7 +74,7 @@ public class RestController {
         long transactionId = userService.transact(principal.getName(), card, new BigDecimal(value));
 
         try {
-            response.sendRedirect(String.format("transactions\\%d", transactionId));
+            response.sendRedirect("balance");
         } catch (IOException e) {
             throw new ApiRequestException(ErrorMessageUtil.getInstance().getMessageByKey(ErrorKeys.BAD_REQUEST.getKey()));
         }
