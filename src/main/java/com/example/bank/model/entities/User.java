@@ -2,12 +2,10 @@ package com.example.bank.model.entities;
 
 import com.example.bank.model.Role;
 import com.example.bank.model.Status;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -16,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 
 @Table(name = "users")
 public class User {
@@ -30,7 +29,7 @@ public class User {
     private String pin;
 
     @Column(name = "balance")
-    private long balance;
+    private BigDecimal balance;
 
     @Column(name = "enabled")
     @Enumerated(value = EnumType.STRING)

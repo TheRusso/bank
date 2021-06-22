@@ -1,41 +1,27 @@
 package com.example.bank.controllers;
 
-import com.example.bank.model.Role;
-import com.example.bank.model.Status;
 import com.example.bank.model.entities.User;
+import com.example.bank.model.rest_response.UserResponse;
 import com.example.bank.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class Authorization {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/login")
-    public String openLoginPage(){
-        return "login";
-    }
-
-    @GetMapping("/register")
-    public String openRegisterPage(Model model){
-        model.addAttribute("user", new User());
-        return "register";
-    }
-
     @PostMapping("/register")
-    public String register(@ModelAttribute(name = "user") User user){
-        user.setPin(new BCryptPasswordEncoder(12).encode(user.getPin()));
-        user.setStatus(Status.ACTIVE);
-        user.setRole(Role.USER);
-        user.setBalance(0);
-        userService.save(user);
-        return "redirect:/";
+    public UserResponse register(@ModelAttribute(name = "card") String card,
+                                 @ModelAttribute(name = "pin") String pin) {
+        User user = new User().builder()
+                .card(card)
+                .pin(pin)
+                .build();
+        userService.createNewUser(user);
+        return new UserResponse(user);
     }
 }

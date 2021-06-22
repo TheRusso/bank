@@ -1,8 +1,11 @@
 package com.example.bank.services;
 
+import com.example.bank.errors_handler.errors.ApiRequestException;
+import com.example.bank.errors_handler.errors.ApiUserNotFoundException;
 import com.example.bank.model.entities.User;
 import com.example.bank.model.rest_response.AllTransactionsResponse;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 public interface UserService {
@@ -42,7 +45,7 @@ public interface UserService {
      * @param card
      * @param value
      */
-    void topUp(String card, long value);
+    void topUp(String card, BigDecimal value) throws ApiUserNotFoundException;
 
     /**
      * Make transaction between two cards
@@ -50,12 +53,19 @@ public interface UserService {
      * @param cardTo
      * @param value
      */
-    void transact(String cardFrom, String cardTo, long value);
+    long transact(String cardFrom, String cardTo, BigDecimal value) throws ApiUserNotFoundException, ApiRequestException;
 
     /**
      * Take money from card
-     * @param user
+     * @param card
      * @param value
      */
-    void takeMoney(String card, long value);
+    void takeMoney(String card, BigDecimal value) throws ApiUserNotFoundException, ApiRequestException;
+
+    /**
+     * Creates new user with default values
+     * and saves it to database
+     * @param user
+     */
+    void createNewUser(User user);
 }
