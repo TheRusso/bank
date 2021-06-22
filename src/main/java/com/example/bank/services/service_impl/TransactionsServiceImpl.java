@@ -10,8 +10,12 @@ import java.util.List;
 
 @Service
 public class TransactionsServiceImpl implements TransactionsService {
-    @Autowired
     private TransactionsRepository transactionsRepository;
+
+    @Autowired
+    public TransactionsServiceImpl(TransactionsRepository transactionsRepository) {
+        this.transactionsRepository = transactionsRepository;
+    }
 
     @Override
     public List<Transaction> findByCardTo(String card) {
